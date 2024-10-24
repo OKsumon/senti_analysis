@@ -12,21 +12,15 @@ import os
 
 # Clear any previous TensorFlow sessions and load your model
 K.clear_session()
-
-# Use absolute paths for loading model and other files
-base_path = '/home/sumonahmedjubayer/senti_ana'  # Set the base directory of your project
-model_path = os.path.join(base_path, 'cnn_model.h5')
-tokenizer_path = os.path.join(base_path, 'tokenizer.pkl')
-label_encoder_path = os.path.join(base_path, 'label_encoder.pkl')
-
-model = load_model(model_path)
+model = load_model('cnn_model.h5')
 print("Model loaded successfully")
 
 # Load tokenizer and label encoder
-with open(tokenizer_path, 'rb') as handle:
+with open('tokenizer.pkl', 'rb') as handle:
     tokenizer = pickle.load(handle)
-with open(label_encoder_path, 'rb') as handle:
+with open('label_encoder.pkl', 'rb') as handle:
     le = pickle.load(handle)
+
 
 # Initialize Flask app
 app = Flask(__name__)
