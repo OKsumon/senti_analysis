@@ -45,22 +45,6 @@
             color: #f8f9fa;
             border: 1px solid #495057;
         }
-        .custom-nav-tabs {
-            border-bottom: var(--bs-border-width) solid #275aa7;
-            color: #343a40;
-        }
-        .custom-nav-tabs .nav-link {
-            border: var(--bs-border-width) solid transparent;
-            border-radius: var(--bs-border-radius);
-        }
-        .custom-nav-tabs .nav-link:hover {
-            border-color: var(--bs-secondary-bg) var(--bs-secondary-bg) var(--bs-border-color);
-        }
-        .custom-nav-tabs .nav-link.active {
-            color: var(--bs-emphasis-color);
-            background-color: #001f4d;
-            border-color: #86b7fe #86b7fe #86b7fe;
-        }
         .text-muted {
             font-size: 0.9rem;
         }
@@ -75,11 +59,11 @@
         <h2 class="text-center mb-4" style="font-weight: bold;">Meta-Learner Sentiment Analysis</h2>
 
         <!-- Analysis Form -->
-        <div class="card mb-4" style="background-color: #021930; padding: 50px;">
+        <div class="card mb-4" style="background-color: #021930; padding:50px">
             <div class="card-body">
-                <form id="analysisForm" action="/predict" method="POST" onsubmit="handleFormSubmit(event)">
+                <form action="/predict" method="POST">
                     <div class="mb-3">
-                        <label for="tweet_text" class="form-label" style="color: #64687c">Enter a tweet in the text box below and click 'Analyze' to predict its sentiment.</label>
+                        <label for="tweet_text" class="form-label" style="color:#64687c">Enter a tweet in the text box below and click 'Analyze' to predict its sentiment.</label>
                         <textarea class="form-control" id="tweet_text" name="tweet_text" rows="4" placeholder="Type here..."></textarea>
                     </div>
                     <button type="submit" class="btn btn-dark w-100" style="opacity: 0.5;">Analyze</button>
@@ -90,21 +74,28 @@
                 {% endif %}
             </div>
         </div>
+    </div>
 
-        <!-- Sentiment Analysis Result -->
-        <div id="resultSection" class="card mb-4" style="background-color: #021930; padding: 50px; display: none;">
+    <!-- Result Section -->
+    {% if tweet_text and sentiment %}
+    <div class="container">
+        <div class="card mb-4" style="background-color: #021930; padding: 50px;">
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-6">
                         <h4 class="mb-3" style="color: #64687c;">User Input Tweet:</h4>
-                        <p id="userInputTweet" class="fs-5" style="color: #ffffff;"></p>
+                        <p class="fs-5" style="color: #ffffff;">{{ tweet_text }}</p>
                         <h3 class="mb-3" style="color: #64687c;">Predicted Sentiment:</h3>
-                        <p id="predictedSentiment" class="fs-4" style="font-weight: bold; color: #ffffff;"></p>
+                        <p class="fs-4" style="font-weight: bold; color: #ffffff;">{{ sentiment }}</p>
                         <h4 class="mt-4" style="color: #64687c;">Probability Percentages:</h4>
-                        <ul id="probabilityList" class="list-group"></ul>
+                        <ul class="list-group">
+                            {% for index, row in probabilities.iterrows() %}
+                                <li class="list-group-item" style="background-color: #343a40; color: #f8f9fa;">{{ row['Sentiment'] }}: {{ "%.2f" | format(row['Probability'] * 100) }}%</li>
+                            {% endfor %}
+                        </ul>
                     </div>
                     <div class="col-md-6">
-                        <img id="sentimentPlot" src="" alt="Sentiment Probabilities Chart" class="img-fluid rounded">
+                        <img src="{{ url_for('static', filename='sentiment_plot.png') }}" alt="Sentiment Probabilities Chart" class="img-fluid rounded">
                     </div>
                 </div>
                 <div class="text-center mt-4">
@@ -113,109 +104,10 @@
             </div>
         </div>
     </div>
-
-    <!-- Tabs Section -->
-    <div class="container mt-5" style="margin-top: 50px; padding-top: 30px;">
-        <ul class="nav nav-tabs custom-nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="projectInfo-tab" data-bs-toggle="tab" data-bs-target="#projectInfo" type="button" role="tab" aria-controls="projectInfo" aria-selected="true">Project Info</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="introduction-tab" data-bs-toggle="tab" data-bs-target="#introduction" type="button" role="tab" aria-controls="introduction" aria-selected="false">Introduction</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="help-tab" data-bs-toggle="tab" data-bs-target="#help" type="button" role="tab" aria-controls="help" aria-selected="false">Help & Documentation</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="futureWork-tab" data-bs-toggle="tab" data-bs-target="#futureWork" type="button" role="tab" aria-controls="futureWork" aria-selected="false">Future Work and Improvement Ideas</button>
-            </li>
-        </ul>
-        <div class="tab-content" id="myTabContent">
-            <!-- Project Info Tab Pane -->
-            <div class="tab-pane fade show active" id="projectInfo" role="tabpanel" aria-labelledby="projectInfo-tab">
-                <div class="card mt-3">
-                    <div class="card-body">
-                        <img src="uob.png" alt="University of Bedfordshire Logo" class="img-fluid mb-3" width="120">
-                        <p><strong>Student Name:</strong> Sumon Ahmed</p>
-                        <p><strong>Student ID:</strong> 1872216</p>
-                        <p><strong>University:</strong> University of Bedfordshire</p>
-                        <p><strong>Project:</strong> Final Year Project - Sentiment Analysis on Social Media Data</p>
-                    </div>
-                </div>
-            </div>
-            <!-- Introduction Tab Pane -->
-            <div class="tab-pane fade" id="introduction" role="tabpanel" aria-labelledby="introduction-tab">
-                <div class="card mt-3">
-                    <div class="card-body">
-                        <p>This application performs sentiment analysis on social media data to detect early signs of mental health issues. Using a deep learning model trained on a Twitter dataset, it provides sentiment predictions and visualizes key metrics.</p>
-                    </div>
-                </div>
-            </div>
-            <!-- Help & Documentation Tab Pane -->
-            <div class="tab-pane fade" id="help" role="tabpanel" aria-labelledby="help-tab">
-                <div class="card mt-3">
-                    <div class="card-body">
-                        <ul>
-                            <li><strong>Precision:</strong> Measures the accuracy of positive predictions.</li>
-                            <li><strong>Recall:</strong> Measures the ability to identify positive instances.</li>
-                            <li><strong>F1-Score:</strong> The balance between precision and recall.</li>
-                            <li><strong>How to Interpret the Chart:</strong> Higher bars indicate higher probabilities for a sentiment class.</li>
-                            <li><strong>Input Requirements:</strong> The input should be a tweet or short text for best results.</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <!-- Future Work and Improvement Ideas Tab Pane -->
-            <div class="tab-pane fade" id="futureWork" role="tabpanel" aria-labelledby="futureWork-tab">
-                <div class="card mt-3">
-                    <div class="card-body">
-                        <ul>
-                            <li><strong>Exploring Transformer Models:</strong> Future work could involve using models like BERT for potentially better accuracy.</li>
-                            <li><strong>Multilingual Support:</strong> Adding support for sentiment analysis in multiple languages.</li>
-                            <li><strong>Real-Time Analysis:</strong> Integrating with Twitter API for real-time sentiment analysis.</li>
-                            <li><strong>Explainable AI:</strong> Adding visualizations that explain which words most influenced the prediction.</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    {% endif %}
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        function handleFormSubmit(event) {
-            event.preventDefault();
-            const tweetText = document.getElementById('tweet_text').value;
-            // Simulate sending data to app.py and getting the response
-            const response = {
-                tweet_text: tweetText,
-                sentiment: 'Positive', // Example sentiment
-                probabilities: [
-                    { Sentiment: 'Positive', Probability: 0.75 },
-                    { Sentiment: 'Negative', Probability: 0.15 },
-                    { Sentiment: 'Neutral', Probability: 0.10 }
-                ]
-            };
-            displayResult(response);
-        }
-
-        function displayResult(data) {
-            document.getElementById('userInputTweet').textContent = data.tweet_text;
-            document.getElementById('predictedSentiment').textContent = data.sentiment;
-            const probabilityList = document.getElementById('probabilityList');
-            probabilityList.innerHTML = '';
-            data.probabilities.forEach(prob => {
-                const listItem = document.createElement('li');
-                listItem.className = 'list-group-item';
-                listItem.style.backgroundColor = '#343a40';
-                listItem.style.color = '#f8f9fa';
-                listItem.textContent = `${prob.Sentiment}: ${(prob.Probability * 100).toFixed(2)}%`;
-                probabilityList.appendChild(listItem);
-            });
-            document.getElementById('sentimentPlot').src = '/static/sentiment_plot.png'; // Example plot image
-            document.getElementById('resultSection').style.display = 'block';
-        }
-
         document.getElementById('themeToggle')?.addEventListener('click', function () {
             const body = document.body;
             const currentTheme = body.getAttribute('data-theme');
