@@ -5,4 +5,3 @@ numpy
 pandas
 seaborn
 gunicorn
-pickle5
