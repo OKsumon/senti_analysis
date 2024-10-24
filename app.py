@@ -21,9 +21,11 @@ with open('tokenizer.pkl', 'rb') as handle:
 with open('label_encoder.pkl', 'rb') as handle:
     le = pickle.load(handle)
 
-
 # Initialize Flask app
 app = Flask(__name__)
+
+# Define base_path for static files
+base_path = os.path.dirname(os.path.abspath(__file__))
 
 # Home route to display input form
 @app.route('/')
@@ -69,7 +71,7 @@ def predict():
         plt.savefig(fig_path)
         plt.close()
 
-        return render_template('index.html', tweet_text=user_input, sentiment=sentiment, probabilities=prob_df, fig_path=fig_path)
+        return render_template('index.html', tweet_text=user_input, sentiment=sentiment, probabilities=prob_df, fig_path='static/sentiment_plot.png')
 
 if __name__ == '__main__':
     # Get the port from the environment or use default
