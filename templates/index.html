@@ -48,9 +48,17 @@
         .text-muted {
             font-size: 0.9rem;
         }
-        .row {
-            display: flex;
-            align-items: center;
+        .contact-text {
+            font-weight: 500;
+            font-size: 1.1rem;
+            color: #333;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -75,6 +83,9 @@
             </div>
         </div>
     </div>
+
+
+    
 
     <!-- Result Section -->
     {% if tweet_text and sentiment %}
@@ -104,7 +115,154 @@
             </div>
         </div>
     </div>
+      
     {% endif %}
+
+    <div class="container mt-5" style="margin-top: 50px; padding-top: 30px">
+        <ul class="nav nav-tabs custom-nav-tabs" style:="background-color: #021930" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="projectInfo-tab" data-bs-toggle="tab" data-bs-target="#projectInfo" type="button" role="tab" aria-controls="projectInfo" aria-selected="true">Project Info</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="introduction-tab" data-bs-toggle="tab" data-bs-target="#introduction" type="button" role="tab" aria-controls="introduction" aria-selected="false">Introduction</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="help-tab" data-bs-toggle="tab" data-bs-target="#help" type="button" role="tab" aria-controls="help" aria-selected="false">Help & Documentation</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="futureWork-tab" data-bs-toggle="tab" data-bs-target="#futureWork" type="button" role="tab" aria-controls="futureWork" aria-selected="false">Future Work and Improvement Ideas</button>
+            </li>
+            
+          </ul>
+        <div class="tab-content" id="myTabContent">
+          <!-- Project Info Tab Pane -->
+          <div class="tab-pane fade show active" id="projectInfo" role="tabpanel" aria-labelledby="projectInfo-tab">
+            <div class="card mt-3">
+              <div class="card-body">
+                <img src="https://uniabroad.io/storage/featuredImage/1669972931-logo-University%20of%20Bedfordshire%20(HEG).webp" alt="University of Bedfordshire Logo" class="img-fluid mb-3" width="120">
+                <p><strong>Student Name:</strong> Sumon Ahmed</p>
+                <p><strong>Student ID:</strong> 1872216</p>
+                <p><strong>Supervisor Name: </strong> Gregory Beacher </p>
+                <p><strong>University Name:</strong> University of Bedfordshire</p>
+                <p><strong>Project Name:</strong>Building a System for Identifying Mental Health Disorders in Early Stages Through Social Media Data Using Sentiment Analysis.</p>
+              </div>
+            </div>
+          </div>
+      
+          <!-- Introduction Tab Pane -->
+          <div class="tab-pane fade" id="introduction" role="tabpanel" aria-labelledby="introduction-tab">
+            <div class="card mt-3">
+              <div class="card-body">
+                <p>Mental health disorders are increasingly prevalent, particularly among young adults, underscoring the need for timely detection and intervention. Traditional approaches to diagnosing mental health issues are often slow, resulting in insufficient care. This project seeks to develop a system for early detection of mental health disorders using sentiment analysis of social media posts. The system employs a combination of advanced machine learning techniques, including hybrid models like CNN-LSTM and BERT-BiLSTM, along with natural language processing tools like VADER and TextBlob. Word-embedding techniques, such as TF-IDF and pre-trained embeddings, enhance the understanding of the text context, while data augmentation enriches the dataset for better model generalization. Additionally, a meta-learner is used to combine the predictions from various models, further improving accuracy. By leveraging these methods, the system aims to identify emotional patterns and behaviors indicative of mental health conditions, providing mental health professionals with valuable insights for timely interventions.</p>
+              </div>
+            </div>
+          </div>
+      
+          <!-- Help & Documentation Tab Pane -->
+          <div class="tab-pane fade" id="help" role="tabpanel" aria-labelledby="help-tab">
+            <div class="card mt-3">
+                <div class="card-body">
+                    <h4 class="mb-3">Overview</h4>
+                    <p>This project is a sentiment analysis web application designed to identify mental health indicators from social media posts. It uses several learning models, including CNN (Convolutional Neural Network), LSTM, BERT, BERT-BiLSTM, and CNN-LSTM. These models are combined using a meta learner with logistic regression to predict the sentiment of a given text. The application is built using Python with a Flask backend, accessible through a simple web interface where users can input text for analysis.</p>
+        
+                    <h4 class="mb-3">Usage</h4>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <strong>Home Page:</strong> The home page displays a text box where you can enter a social media post for sentiment analysis.
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Submit Text:</strong> After typing the text, click on the "Analyze" button. The model will predict the sentiment and display the result, including the probabilities for each sentiment class.
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Result Section:</strong> The result section will display:
+                            <ul class="mt-2">
+                                <li>The input text.</li>
+                                <li>Predicted sentiment (e.g., Positive, Negative, Neutral).</li>
+                                <li>A probability distribution bar chart showing the likelihood for each sentiment class.</li>
+                            </ul>
+                        </li>
+                    </ul>
+        
+                    <h4 class="mb-3 mt-4">Interpreting the Results</h4>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <strong>Probabilities:</strong> The bar chart displays the likelihood of each sentiment class. These values represent the confidence of the model in its prediction.
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Uncertainty:</strong> If multiple classes have similar probabilities, it indicates uncertainty in the prediction. Interpret such results with caution.
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Not a Diagnosis:</strong> The system is not intended to diagnose mental health conditions. It is a tool to provide an indication of sentiment based on the given text, which may be helpful for awareness but should not be considered conclusive.
+                        </li>
+                    </ul>
+                    </h4>
+                </div>
+            </div>
+        </div>
+        
+      
+      <!-- Future Work and Improvement Ideas Tab Pane -->
+<div class="tab-pane fade" id="futureWork" role="tabpanel" aria-labelledby="futureWork-tab">
+    <div class="card mt-3">
+        <div class="card-body" style="color: black;">
+       
+            <h4 class="mb-3">Future Work and Improvement Ideas</h4>
+            <div class="card mt-3">
+                <div class="card-body">
+                    <h5 class="mb-3">Real-Time Monitoring and Integration</h5>
+                    <p>One of the key areas for future development is integrating real-time social media monitoring. Incorporating streaming data from platforms like Twitter could provide more immediate detection of mental health issues, allowing for timely intervention. This would involve building pipelines for continuous data collection and analysis.</p>
+
+                    <h5 class="mb-3">Multilingual and Culturally Adaptive Models</h5>
+                    <p>Current models primarily work with English-language data. Adding support for other languages and culturally specific features can make the system more inclusive. Incorporating multilingual transformers or cross-lingual transfer learning can improve accuracy for non-English posts and expand the usability of the system globally.</p>
+
+                    <h5 class="mb-3">Lightweight Models for Improved Efficiency</h5>
+                    <p>To reduce computational overhead, exploring lightweight versions of transformer models or utilizing model distillation techniques could help create more efficient models that can run in resource-constrained environments. This would make the system accessible for wider applications, including mobile and embedded systems.</p>
+
+                    <h5 class="mb-3">Advanced Data Augmentation Techniques</h5>
+                    <p>Text augmentation techniques such as back-translation and synonym replacement have improved model robustness, but they are computationally expensive and sometimes introduce noise. Future work could focus on developing more optimized data augmentation methods to better reflect diverse user expressions and improve model generalizability without overwhelming computational requirements.</p>
+
+                    <h5 class="mb-3">Improving Model Performance on Imbalanced Data</h5>
+                    <p>Addressing the challenge of imbalanced datasets remains crucial, as social media data tends to over-represent positive sentiments. Future improvements could focus on using more sophisticated balancing techniques such as synthetic data generation, GANs, or advanced sampling strategies to mitigate bias and enhance the detection of underrepresented classes like depressive or anxious sentiments.</p>
+
+                    <h5 class="mb-3">Ethical Considerations and Privacy-Preserving Techniques</h5>
+                    <p>Privacy is a significant concern when analyzing personal social media data. Developing privacy-preserving techniques, such as differential privacy and anonymization, is essential to protect users’ data while still allowing effective sentiment analysis. Future work should prioritize ethical standards and ensure compliance with data protection regulations to foster trust and encourage broader adoption.</p>
+
+                    <h5 class="mb-3">Developing Hybrid and Ensemble Models</h5>
+                    <p>The current hybrid models (CNN-LSTM, BERT-BiLSTM) have shown promising results, but more advanced ensemble learning approaches can be explored. Using meta-learning with more diverse base models could enhance accuracy and reliability. Incorporating additional models like GRUs or using boosting techniques might further improve the system's robustness and capability in understanding nuanced sentiments.</p>
+
+                    <h5 class="mb-3">User Interface Enhancements</h5>
+                    <p>To improve user experience, future iterations could include more interactive and user-friendly features, such as providing personalized recommendations based on detected sentiment trends, integrating voice-based sentiment analysis, or offering visual explanations of model predictions to build transparency.</p>
+                </div>
+            </div>
+
+            
+        </div>
+    </div>
+</div>
+
+        </div>
+      </div>
+
+      <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 text-center">
+                <div class="card shadow-sm" style="opacity: 0.7;">
+                    <div class="card-body">
+                        <p class="contact-text mb-0">Feel free to connect with me via my email: 
+                            <a href="mailto:sumonahmedjubayer@gmail.com" class="font-weight-bold">sumonahmedjubayer@gmail.com</a> or check out my GitHub profile for this and other projects: 
+                            <a href="https://github.com/OKsumon/" target="_blank" class="font-weight-bold">GitHub Repository</a>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+      <!-- Footer Section -->
+      <footer class="text-center mt-5" style="color: white;">
+        <p class="text-center">Project by Sumon Ahmed - MSc Project, University of Bedfordshire.</p>
+        <p class="text-center">&copy; 2024. All rights reserved.</p>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
