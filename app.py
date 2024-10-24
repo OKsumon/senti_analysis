@@ -12,13 +12,20 @@ import os
 
 # Clear any previous TensorFlow sessions and load your model
 K.clear_session()
-model = load_model('cnn_model.h5')
+
+# Use absolute paths for loading model and other files
+base_path = '/home/sumonahmedjubayer/senti_ana'  # Set the base directory of your project
+model_path = os.path.join(base_path, 'cnn_model.h5')
+tokenizer_path = os.path.join(base_path, 'tokenizer.pkl')
+label_encoder_path = os.path.join(base_path, 'label_encoder.pkl')
+
+model = load_model(model_path)
 print("Model loaded successfully")
 
 # Load tokenizer and label encoder
-with open('tokenizer.pkl', 'rb') as handle:
+with open(tokenizer_path, 'rb') as handle:
     tokenizer = pickle.load(handle)
-with open('label_encoder.pkl', 'rb') as handle:
+with open(label_encoder_path, 'rb') as handle:
     le = pickle.load(handle)
 
 # Initialize Flask app
@@ -61,13 +68,17 @@ def predict():
         ax.set_ylabel('Probability')
 
         # Save plot to static folder
-        if not os.path.exists('static'):
-            os.makedirs('static')
-        fig_path = os.path.join('static', 'sentiment_plot.png')
+        static_path = os.path.join(base_path, 'static')
+        if not os.path.exists(static_path):
+            os.makedirs(static_path)
+        fig_path = os.path.join(static_path, 'sentiment_plot.png')
         plt.savefig(fig_path)
         plt.close()
 
         return render_template('result.html', tweet_text=user_input, sentiment=sentiment, probabilities=prob_df, fig_path=fig_path)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # Get the port from the environment or use default
+    port = int(os.environ.get('PORT', 10000))
+    # Run the app on 0.0.0.0 to make it publicly available
+    app.run(host='0.0.0.0', port=port, debug=True)
